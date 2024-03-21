@@ -1,32 +1,54 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {CdkDrag, CdkDragDrop, CdkDragPlaceholder, CdkDropList, moveItemInArray} from "@angular/cdk/drag-drop";
 import {CalenderService} from "../service/calender.service";
 import {AppointmentModel} from "../model/appointment.model";
 import {AppointmentHelperService} from "../service/appointment-helper.service";
 import {MatIconModule} from "@angular/material/icon";
+import {MatCardModule} from "@angular/material/card";
+import {MatDividerModule} from "@angular/material/divider";
+import {flatMap, map, of, Subscription, tap} from "rxjs";
 
 @Component({
   selector: 'app-appointment',
   standalone: true,
   templateUrl: './appointment.component.html',
   styleUrls: ['./appointment.component.scss'],
-  imports: [CommonModule, CdkDropList, CdkDrag, CdkDragPlaceholder, MatIconModule]
+  imports: [CommonModule, CdkDropList, CdkDrag, CdkDragPlaceholder, MatIconModule, MatCardModule, MatDividerModule]
 })
-export class AppointmentComponent implements OnInit {
+export class AppointmentComponent implements OnInit, OnDestroy {
   appointments: AppointmentModel[] = [];
 
   times = this.createTimeArray();
+  // @ts-ignore
+  selectedDate;
+
+  // @ts-ignore
+  appointmentSubscription$: Subscription;
 
   constructor(public calenderService: CalenderService, private appointmentHelperService: AppointmentHelperService) {
   }
 
   ngOnInit(): void {
-    this.appointmentHelperService
-      .appointmentObservable()
-      .subscribe(appointmentList => {
-        this.appointments = appointmentList;
-      })
+    this.appointmentHelperService.loadContents();
+
+    this.appointmentSubscription$ = this.calenderService
+      .calenderObservable()
+      .pipe(tap(
+          date => this.selectedDate = date
+        ),
+        flatMap((selectedDate) => {
+          if (selectedDate) {
+            return this.appointmentHelperService
+              .appointmentObservable()
+              .pipe(
+                map(data => this.appointmentHelperService.filterAppointmentsByDate(this.selectedDate, data))
+              )
+          }
+          return of([]);
+        })
+      ).subscribe(data => this.appointments = data);
+
   }
 
   createTimeArray() {
@@ -62,6 +84,10 @@ export class AppointmentComponent implements OnInit {
   getAppointment(i: number) {
     const time = this.times[i];
     return this.appointments.find(appointment => appointment.startHour == time.hour);
+  }
+
+  ngOnDestroy() {
+    this.appointmentSubscription$.unsubscribe();
   }
 
 }

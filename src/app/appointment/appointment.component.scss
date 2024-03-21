@@ -1,4 +1,9 @@
-.example-list {
+.appointment {
+  background-color: #325987 !important;
+  color: #efefef;
+}
+
+.appointment__list {
   width: 500px;
   max-width: 100%;
   border: solid 1px #ccc;
@@ -9,7 +14,7 @@
   overflow: hidden;
 }
 
-.example-box {
+.appointmen__box {
   padding: 20px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
@@ -35,15 +40,15 @@
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box:last-child {
+.appointmen__box:last-child {
   border: none;
 }
 
-.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+.appointment__list.cdk-drop-list-dragging .appointmen__box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-custom-placeholder {
+.appointment__content {
   background: #ccc;
   border: dotted 3px #999;
   min-height: 60px;
