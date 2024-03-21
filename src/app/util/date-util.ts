@@ -1,5 +1,5 @@
-export const formatDate = (dateIsoFmt:string) => {
-  const date = new Date(dateIsoFmt);
+export const formatDate = (dateIsoFmt:String) => {
+  const date = new Date(dateIsoFmt.toString());
 
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');

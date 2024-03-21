@@ -1,24 +1,44 @@
-<div cdkDropList class="appointment__list" (cdkDropListDropped)="drop($event)">
-  <div *ngFor="let time of times;let i=index" class="appointment__box" cdkDrag>
-
-    <mat-card class="appointment__content" [ngClass]="getAppointment(i)? 'appointment':''">
+<mat-grid-list cols="2" rowHeight="1:1">
+  <mat-grid-tile>
+    <mat-card class="appointment-summary">
       <mat-card-header>
-        <mat-card-title>{{appointmentTitle(i)}}</mat-card-title>
-        <mat-card-subtitle><span> {{time.timeStr}} </span></mat-card-subtitle>
+        <mat-card-title>Appointment
+          On {{ calender$ | async | date:'mediumDate'}}</mat-card-title>
       </mat-card-header>
-      <mat-card-content *ngIf="getAppointment(i)">
-        <p>Appointment From {{getAppointment(i)?.startHour}} - {{getAppointment(i)?.endHour}}</p>
-        <mat-divider></mat-divider>
+      <mat-card-content>
+        <p>Appointments: {{ appointments.length }}</p>
       </mat-card-content>
-      <mat-card-actions>
-        <mat-icon aria-hidden="false" aria-label="icon" fontIcon="delete" *ngIf="getAppointment(i)" (click)="remove(i)"
-                  style="cursor: pointer;float: right;color: white"></mat-icon>
-      </mat-card-actions>
-      <mat-card-footer>
-
-      </mat-card-footer>
     </mat-card>
-  </div>
-  <hr/>
-  <h3>{{calenderService.calenderObservable()|async}}</h3>
-</div>
+
+  </mat-grid-tile>
+  <mat-grid-tile>
+
+    <div cdkDropList class="appointment__list" (cdkDropListDropped)="drop($event)">
+      <div *ngFor="let time of times;let i=index" class="appointment__box" cdkDrag>
+
+        <mat-card class="appointment__content" [ngClass]="getAppointment(i)? 'appointment':''">
+          <mat-card-header>
+            <mat-card-title>{{appointmentTitle(i)}}</mat-card-title>
+            <mat-card-subtitle><span> {{time.timeStr}} </span></mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content *ngIf="getAppointment(i)">
+            <p>Appointment From {{getAppointment(i)?.startHour}} - {{getAppointment(i)?.endHour}}</p>
+            <mat-divider></mat-divider>
+          </mat-card-content>
+          <mat-card-actions>
+            <mat-icon aria-hidden="false" aria-label="icon" fontIcon="delete" *ngIf="getAppointment(i)"
+                      (click)="remove(i)"
+                      style="cursor: pointer;float: right;color: white"></mat-icon>
+          </mat-card-actions>
+          <mat-card-footer>
+
+          </mat-card-footer>
+        </mat-card>
+      </div>
+      <hr/>
+
+    </div>
+
+  </mat-grid-tile>
+</mat-grid-list>
+

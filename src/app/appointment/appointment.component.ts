@@ -8,20 +8,21 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatCardModule} from "@angular/material/card";
 import {MatDividerModule} from "@angular/material/divider";
 import {flatMap, map, of, Subscription, tap} from "rxjs";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {SharedModule} from "../shared/shared.module";
 
 @Component({
   selector: 'app-appointment',
   standalone: true,
   templateUrl: './appointment.component.html',
   styleUrls: ['./appointment.component.scss'],
-  imports: [CommonModule, CdkDropList, CdkDrag, CdkDragPlaceholder, MatIconModule, MatCardModule, MatDividerModule]
+  imports: [CommonModule, CdkDropList, CdkDrag, CdkDragPlaceholder, MatIconModule, MatCardModule, MatDividerModule, MatGridListModule, SharedModule]
 })
 export class AppointmentComponent implements OnInit, OnDestroy {
   appointments: AppointmentModel[] = [];
 
   times = this.createTimeArray();
-  // @ts-ignore
-  selectedDate;
+  calender$=this.calenderService.calenderObservable();
 
   // @ts-ignore
   appointmentSubscription$: Subscription;
@@ -34,16 +35,12 @@ export class AppointmentComponent implements OnInit, OnDestroy {
 
     this.appointmentSubscription$ = this.calenderService
       .calenderObservable()
-      .pipe(tap(
-          date => this.selectedDate = date
-        ),
+      .pipe(
         flatMap((selectedDate) => {
           if (selectedDate) {
             return this.appointmentHelperService
               .appointmentObservable()
-              .pipe(
-                map(data => this.appointmentHelperService.filterAppointmentsByDate(this.selectedDate, data))
-              )
+              .pipe(map(data => this.appointmentHelperService.filterAppointmentsByDate(selectedDate, data)))
           }
           return of([]);
         })

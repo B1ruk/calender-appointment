@@ -16,11 +16,9 @@ export class CalendarContainerComponent {
   selectedDate: Date = new Date(); // Initialize with current date
 
   onDateChange(event: MatDatepickerInputEvent<Date>) {
-    // this.selectedDate = event.value;
-    console.log('Selected Date:', event.value);
-    console.log('Selected Date:', event.value?.toISOString());
 
-    this.calenderService.onCalendarChange(event.value?.toISOString())
+    // @ts-ignore
+    this.calenderService.onCalendarChange(event.value.toISOString())
     // Perform actions based on the selected date (e.g., update UI, call API)
   }
 

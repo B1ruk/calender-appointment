@@ -61,7 +61,7 @@ export class AppointmentHelperService {
       }));
   };
 
-   filterAppointmentsByDate<A>(dateIso: string, appointmentList: AppointmentModel[]) {
+   filterAppointmentsByDate<A>(dateIso: String, appointmentList: AppointmentModel[]) {
     const currentDate = formatDate(dateIso);
 
     return appointmentList.filter(model => {
