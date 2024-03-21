@@ -1,0 +1,54 @@
+<h2 mat-dialog-title>Appointment </h2>
+<mat-dialog-content>
+  <hr/>
+  <form [formGroup]="appointmentForm" (ngSubmit)="onSubmit()" class="vertical-form">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput type="text" formControlName="title" required>
+      <mat-error *ngIf="appointmentForm.get('title')?.hasError('required')">
+        Title is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Start Hour (9am - 5pm)</mat-label>
+      <input matInput type="number" formControlName="startHour" required min="9" max="17">
+      <mat-error *ngIf="appointmentForm.get('startHour')?.hasError('required')">
+        Start hour is required
+      </mat-error>
+      <mat-error *ngIf="appointmentForm.get('startHour')?.hasError('min')">
+        Start hour must be between 9am and 5pm
+      </mat-error>
+      <mat-error *ngIf="appointmentForm.get('startHour')?.hasError('max')">
+        Start hour must be between 9am and 5pm
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>End Hour (After Start Hour)</mat-label>
+      <input matInput type="number" formControlName="endHour" required min="10"
+             [min]="appointmentForm.get('startHour')?.value + 1" max="17">
+      <mat-error *ngIf="appointmentForm.get('endHour')?.hasError('required')">
+        End hour is required
+      </mat-error>
+      <mat-error *ngIf="appointmentForm.get('endHour')?.hasError('min')">
+        End hour must be between 10am and 5pm
+      </mat-error>
+      <mat-error *ngIf="appointmentForm.get('endHour')?.hasError('max')">
+        End hour must be between 10am and 5pm
+      </mat-error>
+      <mat-error *ngIf="appointmentForm.hasError('endTimeAfterStartTime')">
+        End hour must be after start hour
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Submit</button>
+  </form>
+
+  <hr/>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onClose()">No Thanks</button>
+  <!--  <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button>-->
+</mat-dialog-actions>

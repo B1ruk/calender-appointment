@@ -1,0 +1,9 @@
+<div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+  <div *ngFor="let time of times;let i=index" class="example-box" cdkDrag>
+    <div class="example-custom-placeholder" *cdkDragPlaceholder></div>
+    <span> {{time.timeStr}} </span>  {{appointmentTitle(i)}}
+    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete" *ngIf="getAppointment(i)" (click)="remove(i)" style="cursor: pointer"></mat-icon>
+  </div>
+  <hr/>
+  <h3>{{calenderService.calenderObservable()|async}}</h3>
+</div>

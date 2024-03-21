@@ -1,0 +1,53 @@
+.vertical-form {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.mat-form-field {
+  margin-bottom: 15px;
+}
+
+
+.mat-form-field {
+  margin-bottom: 15px;
+}
+
+
+.mat-form-field-label {
+  font-weight: bold;
+  color: #333;
+}
+
+
+.mat-form-field .mat-form-control {
+  background: #f0f9ff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 8px 12px;
+}
+
+.mat-form-field .mat-form-control:focus {
+  border-color: #66afe9;
+  outline: none;
+}
+
+
+.mat-error {
+  color: red;
+  font-size: smaller;
+}
+
+
+.mat-raised-button {
+  background: #4CAF50;
+  color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.mat-raised-button:hover {
+  background: #3e8e41;
+}
